@@ -1,3 +1,8 @@
+var google = {};
+google.key = process.env.GOOGLE_API_KEY;
+google.cid = process.env.GOOGLE_OAUTH_ID;
+google.cx  = process.env.GOOGLE_CSE_CX;
+
 module.exports = function(robot){
   robot.respond(/help!/, function(res){
     res.send('你可以這樣用：\n唱(空格)關鍵字\n圖(空格)關鍵字');
@@ -7,8 +12,8 @@ module.exports = function(robot){
     var query = msg.match[1];
     robot.http('https://www.googleapis.com/youtube/v3/search')
       .query({
-        client_id: '215413558064-ud4i1smbudtmdhdeg7e702eds0m8bpk2.apps.googleusercontent.com',
-        key: 'AIzaSyCkvdq2zixT2QKDIulSm9hz5KrR7ygzhAo',
+        client_id: google.cid,
+        key: google.key,
         order: 'relevance',
         part: 'snippet',
         type: 'video',
@@ -35,8 +40,8 @@ module.exports = function(robot){
         searchType: 'image',
         num: '1',
         q: query,
-        key: 'AIzaSyCkvdq2zixT2QKDIulSm9hz5KrR7ygzhAo',
-        cx: '003483038444650529406:mms4nu8lmj0',
+        key: google.key,
+        cx: google.cx,
       }).get()(function (err, res, body) {
         if (err) msg.send(err); 
         if (res.statusCode == 200) {
